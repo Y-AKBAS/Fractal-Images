@@ -3,3 +3,4 @@
 .name
 *.xml
 *.iml
+/.idea
