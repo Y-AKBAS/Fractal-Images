@@ -2,7 +2,8 @@
 #include <iostream>
 #include "Bitmap.h"
 #include "Mandelbrot.h"
-#include <math.h>
+#include "ZoomInfo.h"
+#include "ZoomInfoList.h"
 
 int main() {
     const int width = 1620;
@@ -10,6 +11,9 @@ int main() {
 
     double min = 99999;
     double max = -min;
+
+    const auto zoomInfoListPtr = std::make_unique<ZoomInfoList>(width, height);
+    zoomInfoListPtr->add(std::make_shared<ZoomInfo>(width / 2, height / 2, 4 / width));
 
     const auto bitMapPtr = std::make_unique<Bitmap>(width, height);
     const std::unique_ptr<int[]> histogramPtr(new int[Mandelbrot::NUMBER_OF_ITERATIONS]{});
@@ -41,13 +45,14 @@ int main() {
             std::uint8_t blue{};
 
             const int iterations = fractalPtr[y * width + x];
-            if (iterations != Mandelbrot::NUMBER_OF_ITERATIONS){
+            if (iterations != Mandelbrot::NUMBER_OF_ITERATIONS) {
 
                 double hue{0.0};
                 for (int i = 0; i < iterations; ++i) {
                     hue += (static_cast<double>(histogramPtr[i])) / total;
                 }
                 green = std::pow(255, hue);
+
             }
 
             bitMapPtr->setPixel(x, y, red, green, blue);
