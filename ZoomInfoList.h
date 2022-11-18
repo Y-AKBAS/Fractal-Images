@@ -10,7 +10,7 @@ public:
 
     void add(const std::shared_ptr<ZoomInfo> &&zoomInfoPtr);
 
-    std::pair<double, double> doZoom(const int &x, const int &y);
+    [[nodiscard]] std::pair<double, double> doZoom(const int &x, const int &y) const;
 
 private:
     double xCenter{};
@@ -19,5 +19,5 @@ private:
 
     int width{};
     int height{};
-    std::shared_ptr<std::vector<std::shared_ptr<ZoomInfo>>> zoomInfos{};
+    const std::shared_ptr<std::vector<std::shared_ptr<ZoomInfo>>> zoomInfos{};
 };
